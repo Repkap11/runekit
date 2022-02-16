@@ -34,6 +34,8 @@ build/appdir: build/python3.9.10.AppImage
 	$< --appimage-extract
 	mv squashfs-root build/appdir
 
+paul: dist/RuneKit.AppImage
+
 dist/RuneKit.AppImage: dist/runekit.tar.gz build/appdir deploy/runekit-appimage.sh
 	build/appdir/usr/bin/python3 -m pip install dist/runekit.tar.gz
 	rm $(wildcard build/appdir/*.desktop) $(wildcard build/appdir/usr/share/applications/*.desktop) $(wildcard build/appdir/usr/share/metainfo/*)
@@ -44,4 +46,4 @@ dist/RuneKit.AppImage: dist/runekit.tar.gz build/appdir deploy/runekit-appimage.
 	VERSION=1 ./$(LINUXDEPLOY) --appdir=build/appdir --output appimage
 	cp RuneKit-*.AppImage "$@"
 
-.PHONY: dev
+.PHONY: dev paul
