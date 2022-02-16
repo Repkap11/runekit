@@ -177,6 +177,13 @@ class X11GameInstance(QtGrabMixin, QtEmbedMixin, PsUtilNetStat, GameInstance):
         logging.debug("Got key:"+str(evt))
         if evt.detail == 10 and evt.state & xcffib.xproto.KeyButMask.Mod1:
             logging.debug("Got ALT1 1")
-            self.alt1_pressed.emit()
+            self.alt1_pressed.emit(1)
+        if evt.detail == 11 and evt.state & xcffib.xproto.KeyButMask.Mod1:
+            logging.debug("Got ALT1 2")
+            self.alt1_pressed.emit(2)
+        if evt.detail == 12 and evt.state & xcffib.xproto.KeyButMask.Mod1:
+            logging.debug("Got ALT1 3")
+            self.alt1_pressed.emit(3)
         else:
+            logging.debug("Got Other:"+str(evt.detail))
             self.game_activity.emit()

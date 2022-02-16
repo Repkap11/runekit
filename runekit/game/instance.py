@@ -22,7 +22,7 @@ class GameInstance(QObject):
     manager: "GameManager"
     _last_game_activity: float = 0
 
-    alt1_pressed = Signal()
+    alt1_pressed = Signal(int)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

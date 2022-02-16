@@ -399,14 +399,23 @@
         });
 
         instance.alt1Signal.connect(function (pos){
-            console.error("Paul got ALT1 4!!");
-            let mouseX = pos >> 16;
-            let mouseY = pos & 0xFFFF;
-            console.error("Paul got ALT1 5:"+mouseX+":"+mouseY);
+            // console.log("Paul got ALT1 4!!");
+            let mouseX = 0;
+            let mouseY = 0;
+            // console.log("Paul got ALT1 5:"+mouseX+":"+mouseY);
+
+            let location =  "";
+            if (pos == 1){
+                location = 'Grand Exchange Luck of the dwarves';
+            } else if (pos == 2){
+                location = 'Cast Manor farm teleport';
+            } else if (pos == 3){
+                location = 'Cast Skeletal horror Teleport';
+            }
 
             let event = {
                 eventName: 'alt1pressed',
-                text: 'Quick Teleport Al Kharid',
+                text: location,
                 mouseAbs: {
                     x: mouseX + instance.gamePositionX,
                     y: mouseY + instance.gamePositionY,
