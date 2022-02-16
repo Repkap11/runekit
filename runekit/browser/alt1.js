@@ -399,11 +399,14 @@
         });
 
         instance.alt1Signal.connect(function (pos){
+            console.error("Paul got ALT1 4!!");
             let mouseX = pos >> 16;
             let mouseY = pos & 0xFFFF;
+            console.error("Paul got ALT1 5:"+mouseX+":"+mouseY);
+
             let event = {
                 eventName: 'alt1pressed',
-                text: '',
+                text: 'Quick Teleport Al Kharid',
                 mouseAbs: {
                     x: mouseX + instance.gamePositionX,
                     y: mouseY + instance.gamePositionY,

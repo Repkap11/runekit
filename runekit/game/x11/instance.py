@@ -174,7 +174,9 @@ class X11GameInstance(QtGrabMixin, QtEmbedMixin, PsUtilNetStat, GameInstance):
     def on_input(
         self, evt: Union[xcffib.xproto.KeyPressEvent, xcffib.xproto.ButtonPressEvent]
     ):
+        logging.debug("Got key:"+str(evt))
         if evt.detail == 10 and evt.state & xcffib.xproto.KeyButMask.Mod1:
+            logging.debug("Got ALT1 1")
             self.alt1_pressed.emit()
         else:
             self.game_activity.emit()

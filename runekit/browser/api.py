@@ -80,6 +80,7 @@ class Alt1Api(QObject):
         self._private = Alt1ApiPrivate(self, parent=self)
         self.app.game_instance.game_activity.connect(self.game_activity_signal)
         self.app.game_instance.worldChanged.connect(self.world_change_signal)
+        # self.app.game_instance.alt1_pressed.connect(self.alt1Signal)
 
         poll_timer = QTimer(self)
         poll_timer.setInterval(250)
@@ -430,7 +431,9 @@ class Alt1ApiPrivate(QObject):
 
     @Slot()
     def on_alt1(self):
+        logging.debug("Got ALT1 2")
         mouse = self.api.get_mouse_position()
+        logging.debug("Got ALT1 3 mouse:"+str(mouse))
         self.api.alt1Signal.emit(mouse)
 
 
