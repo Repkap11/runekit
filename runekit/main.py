@@ -4,8 +4,8 @@ import sys
 import traceback
 
 import click
-from PySide2.QtCore import QSettings, Qt, QTimer
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QSettings, Qt, QTimer
+from PySide6.QtWidgets import (
     QApplication,
     QMessageBox,
 )
@@ -14,6 +14,7 @@ import runekit._resources
 from runekit import browser
 from runekit.game import get_platform_manager
 from runekit.host import Host
+import time
 
 
 @click.command(
@@ -25,16 +26,26 @@ from runekit.host import Host
 @click.argument("qt_args", nargs=-1, type=click.UNPROCESSED)
 @click.argument("app_url", required=False)
 def main(app_url, game_index, qt_args):
+    print("Paul startting main")
+    print("Paul creating app")
+    app = QApplication(["runekit", *qt_args])
+    print("Paul app created")
+    # time.sleep(5)
+
+
     logging.basicConfig(level=logging.DEBUG)
 
     logging.info("Starting QtWebEngine")
     browser.init()
+    print("Paul here 1")
 
-    app = QApplication(["runekit", *qt_args])
+
     app.setQuitOnLastWindowClosed(False)
     app.setOrganizationName("cupco.de")
     app.setOrganizationDomain("cupco.de")
     app.setApplicationName("RuneKit")
+    print("Paul here 5")
+
 
     signal.signal(signal.SIGINT, lambda no, frame: app.quit())
 
@@ -43,9 +54,11 @@ def main(app_url, game_index, qt_args):
     timer.timeout.connect(lambda: None)
 
     QSettings.setDefaultFormat(QSettings.IniFormat)
+    print("Paul here 8")
 
     try:
         game_manager = get_platform_manager()
+        print("Paul here 8")
         host = Host(game_manager)
 
         if app_url == "settings":
@@ -63,6 +76,7 @@ def main(app_url, game_index, qt_args):
             # if not host.app_store.has_default_apps():
             #     host.app_store.load_default_apps()
 
+        print("Paul here 10")
         app.exec_()
         sys.exit(0)
     except Exception as e:

@@ -1,8 +1,8 @@
 import secrets
 from typing import TYPE_CHECKING
 
-from PySide2.QtCore import QFile, QIODevice
-from PySide2.QtWebEngineWidgets import (
+from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtWebEngineCore import (
     QWebEngineProfile,
     QWebEngineScript,
     QWebEngineSettings,
@@ -59,8 +59,8 @@ class WebProfile(QWebEngineProfile):
 
         script = QWebEngineScript()
         script.setName("alt1.js")
-        script.setWorldId(QWebEngineScript.MainWorld)
-        script.setInjectionPoint(QWebEngineScript.DocumentCreation)
+        script.setWorldId(QWebEngineScript.ScriptWorldId.MainWorld.value)
+        script.setInjectionPoint(QWebEngineScript.InjectionPoint.DocumentCreation)
         script.setSourceCode(src.replace("%%RPC_TOKEN%%", self.rpc_secret))
         script.setRunsOnSubFrames(True)
 

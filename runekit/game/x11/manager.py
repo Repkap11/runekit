@@ -9,7 +9,7 @@ import xcffib.composite
 import xcffib.shm
 import xcffib.xinput
 import xcffib.xproto
-from PySide2.QtCore import QThread, Slot, QObject, Signal
+from PySide6.QtCore import QThread, Slot, QObject, Signal
 
 from runekit.game import GameManager
 from .instance import GameInstance, X11GameInstance
@@ -28,6 +28,7 @@ class X11GameManager(GameManager):
     _shm: List[Tuple[int, sysv_ipc.SharedMemory]]
 
     def __init__(self, **kwargs):
+        print("X11 init 1")
         super().__init__(*kwargs)
         self._instances = {}
         self._atom = {}
@@ -35,12 +36,16 @@ class X11GameManager(GameManager):
 
         self.logger = logging.getLogger(__name__ + "." + self.__class__.__name__)
         self.connection = xcffib.Connection()
+        print("X11 init 2")
         self.screen = self.connection.get_screen_pointers()[self.connection.pref_screen]
         self.xcomposite = self.connection(xcffib.composite.key)
         self.xshm = self.connection(xcffib.shm.key)
         self.xinput = self.connection(xcffib.xinput.key)
+        print("X11 init 3")
         self._setup_composite()
+        print("X11 init 4")
         self._setup_overlay()
+        print("X11 init 5")
 
         self.event_thread = QThread(self)
 
@@ -109,9 +114,13 @@ class X11GameManager(GameManager):
         return self.get_property(self.screen.root, "_NET_ACTIVE_WINDOW")
 
     def _setup_overlay(self):
+        print("Overlay 1")
         self.overlay = DesktopWideOverlay()
+        print("Overlay 2")
         self.overlay.show()
+        print("Overlay 3")
         self.overlay.check_compatibility()
+        print("Overlay 4")
 
     def _setup_composite(self):
         self.xcomposite.QueryVersion(0, 4, is_checked=True)

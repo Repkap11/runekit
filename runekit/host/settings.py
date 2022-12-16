@@ -2,9 +2,9 @@ import json
 import sys
 from typing import TYPE_CHECKING
 
-from PySide2.QtCore import QSize, Qt, Slot, QTimer, QSettings
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QSize, Qt, Slot, QTimer, QSettings
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QMainWindow,
