@@ -71,10 +71,11 @@ def main(app_url, game_index, qt_args):
             game_app.window.destroyed.connect(app.quit)
         else:
             logging.info("Loading Clue by default")
-            game_app = host.launch_app_from_url("https://runeapps.org/apps/clue/appconfig.json")
-            game_app.window.destroyed.connect(app.quit)
+            # game_app = host.launch_app_from_url("https://runeapps.org/apps/clue/appconfig.json")
+            game_app = host.launch_app_from_url("https://cluetrainer.app/appconfig.json")
+            # game_app.window.destroyed.connect(app.quit)
             # if not host.app_store.has_default_apps():
-            #     host.app_store.load_default_apps()
+                # host.app_store.load_default_apps()
 
         print("Paul here 10")
         app.exec_()
