@@ -105,4 +105,4 @@ class DesktopWideOverlay(QMainWindow):
         image = qpixmap_to_np(screenshot)
         if is_color_percent_gte(image, color=[0, 0, 0], percent=0.95):
             self.logger.warning("Detected black screen condition. Disabling overlay")
-            self.hide()
+            # self.hide()
