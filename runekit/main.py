@@ -4,8 +4,8 @@ import sys
 import traceback
 
 import click
-from PySide2.QtCore import QSettings, Qt, QTimer
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QSettings, Qt, QTimer
+from PySide6.QtWidgets import (
     QApplication,
     QMessageBox,
 )

@@ -5,7 +5,7 @@ import secrets
 from typing import TYPE_CHECKING, Dict, Callable, List, NamedTuple
 from urllib.parse import urljoin
 
-from PySide2.QtCore import (
+from PySide6.QtCore import (
     QObject,
     Slot,
     QBuffer,
@@ -18,9 +18,9 @@ from PySide2.QtCore import (
     QRunnable,
     QJsonValue,
 )
-from PySide2.QtGui import QGuiApplication, QCursor, QScreen
-from PySide2.QtWebChannel import QWebChannel
-from PySide2.QtWebEngineCore import QWebEngineUrlSchemeHandler, QWebEngineUrlRequestJob
+from PySide6.QtGui import QGuiApplication, QCursor, QScreen
+from PySide6.QtWebChannel import QWebChannel
+from PySide6.QtWebEngineCore import QWebEngineUrlSchemeHandler, QWebEngineUrlRequestJob
 
 from runekit.browser.overlay import OverlayApi
 from runekit.browser.utils import (
@@ -428,7 +428,7 @@ class Alt1ApiPrivate(QObject):
         self.api._game_scaling = scale
         self.api.game_scaling_change_signal.emit()
 
-    @Slot()
+    @Slot(int)
     def on_alt1(self):
         mouse = self.api.get_mouse_position()
         self.api.alt1Signal.emit(mouse)
@@ -444,7 +444,7 @@ class Alt1WebChannel(QWebChannel):
 
 
 class RuneKitRequestProcessSignals(QObject):
-    successSignal = Signal(QWebEngineUrlRequestJob, bytes, bytes)
+    successSignal = Signal(object, bytes, bytes)
 
 
 class RuneKitRequestProcess(QRunnable):
@@ -483,7 +483,7 @@ class RuneKitRequestProcess(QRunnable):
                     self.request, b"application/json", json.dumps(out).encode("ascii")
                 )
         except:
-            self.request.fail(QWebEngineUrlRequestJob.RequestFailed)
+            self.request.fail(QWebEngineUrlRequestJob.Error.RequestFailed.value)
             self.handler.logger.error(
                 "Fail to handle request %s",
                 repr(self.request.requestUrl()),
@@ -506,15 +506,15 @@ class RuneKitSchemeHandler(QWebEngineUrlSchemeHandler):
         token = headers.get(QByteArray(b"token"))
         if not secrets.compare_digest(token, self.rpc_secret):
             self.logger.warning("Invalid rpc secret: %s", repr(token))
-            req.fail(QWebEngineUrlRequestJob.RequestDenied)
+            req.fail(QWebEngineUrlRequestJob.Error.RequestDenied.value)
             return
 
         processor = RuneKitRequestProcess(self, req, parent=req)
         processor.signals.successSignal.connect(self.on_success)
         self.thread_pool.start(processor)
 
-    @Slot(QWebEngineUrlRequestJob, bytes, bytes)
-    def on_success(self, request, content_type, reply):
+    @Slot(object, bytes, bytes)
+    def on_success(self, request:QWebEngineUrlRequestJob, content_type:bytes, reply:bytes):
         body = QBuffer(parent=request)
         body.setData(reply)
         request.reply(content_type, body)

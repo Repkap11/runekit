@@ -8,7 +8,7 @@ from typing import Iterator, Tuple, Optional, Union, List
 from urllib.parse import urljoin
 
 import requests
-from PySide2.QtCore import (
+from PySide6.QtCore import (
     QObject,
     QSettings,
     QThread,
@@ -16,8 +16,8 @@ from PySide2.QtCore import (
     Slot,
     QStandardPaths,
 )
-from PySide2.QtGui import QIcon, QPixmap
-from PySide2.QtWidgets import QProgressDialog, QMessageBox
+from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtWidgets import QProgressDialog, QMessageBox
 
 from runekit.alt1.schema import AppManifest
 from runekit.alt1.utils import fetch_bom_json
