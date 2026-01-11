@@ -105,5 +105,12 @@ class DesktopWideOverlay(QMainWindow):
         screenshot = QGuiApplication.primaryScreen().grabWindow(0)
         image = qpixmap_to_np(screenshot)
         if is_color_percent_gte(image, color=[0, 0, 0], percent=0.95):
-            self.logger.warning("Detected black screen condition. Disabling overlay")
-            self.hide()
+            os_session = os.environ.get("XDG_SESSION_TYPE", "").lower()
+            qt_platform = QGuiApplication.platformName() # 'xcb' for X11, 'wayland' for native Wayland
+
+            if os_session == "wayland" and qt_platform == "xcb":
+                self.logger.warning("Skipping hide of overlay on XWayland, since it's fine.")
+            else :
+                # This always happens on Xwayland...
+                self.logger.warning("Detected black screen condition. Disabling overlay")
+                self.hide()
