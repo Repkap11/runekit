@@ -123,6 +123,8 @@ class X11GameInstance(QtGrabMixin, QtEmbedMixin, PsUtilNetStat, GameInstance):
         if (time.monotonic() - self.game_last_grab) * 1000 < self.refresh_rate:
             return self.game_last_image
 
+        self.name_pixmap()
+
         xid = shm = None
         try:
             geom = self.manager.connection.core.GetGeometry(self.pixmap_id).reply()
