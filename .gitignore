@@ -9,3 +9,4 @@ __pycache__
 runekit/_resources.py
 *.AppImage
 *.pyo
+debug_output.png

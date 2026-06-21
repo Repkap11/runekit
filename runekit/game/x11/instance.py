@@ -7,6 +7,8 @@ import xcffib.xproto
 from PySide6.QtCore import QRect, Signal, Slot
 from PySide6.QtGui import QWindow, QGuiApplication
 from PySide6.QtWidgets import QGraphicsItem
+from PIL import Image
+import numpy as np
 
 from runekit.game.instance import GameInstance
 from runekit.game.psutil_mixins import PsUtilNetStat
@@ -142,6 +144,13 @@ class X11GameInstance(QtGrabMixin, QtEmbedMixin, PsUtilNetStat, GameInstance):
             )
 
             out = zpixmap_shm_to_image(shm, size, geom.width, geom.height)
+
+            if (False):
+                image_data = out.astype(np.uint8)
+                img = Image.fromarray(image_data)
+
+                # Save the file
+                img.save("debug_output.png")
 
             self.game_last_image = out
             self.game_last_grab = time.monotonic()
